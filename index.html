@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>معلم محمد — زليج وجبس مغربي</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&family=Cinzel:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    /* ===========================
+       VARIABLES & RESET
+    =========================== */
+    :root {
+      --gold: #C8942A;
+      --gold-light: #E8B84B;
+      --gold-dark: #8B6419;
+      --cream: #F5EDD8;
+      --cream-dark: #E8D9B8;
+      --dark: #0E0B07;
+      --dark-2: #1A1410;
+      --dark-3: #2A2218;
+      --mid: #4A3C28;
+      --text: #D4C4A0;
+      --text-light: #E8D9B8;
+      --green-morocco: #2d6a4f;
+      --blue-fes: #1a4a6e;
+      --radius: 2px;
+      --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: var(--dark);
+      color: var(--text-light);
+      overflow-x: hidden;
+      cursor: none;
+      direction: rtl;
+    }
+
+    @media (hover: none) {
+      body { cursor: auto; }
+      .cursor-dot, .cursor-ring { display: none; }
+    }
+
+    /* ===========================
+       CURSOR
+    =========================== */
+    .cursor-dot {
+      position: fixed; top: 0; left: 0;
+      width: 6px; height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s;
+    }
+    .cursor-ring {
+      position: fixed; top: 0; left: 0;
+      width: 36px; height: 36px;
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: transform 0.15s, width 0.3s, height 0.3s, border-color 0.3s;
+      opacity: 0.6;
+    }
+    .cursor-ring.hovered { width: 54px; height: 54px; border-color: var(--gold-light); opacity: 1; }
+
+    /* ===========================
+       LOADER
+    =========================== */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--dark); z-index: 10000;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    #loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-pattern {
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(60deg, transparent, transparent 30px, rgba(200,148,42,0.04) 30px, rgba(200,148,42,0.04) 31px),
+        repeating-linear-gradient(-60deg, transparent, transparent 30px, rgba(200,148,42,0.04) 30px, rgba(200,148,42,0.04) 31px);
+    }
+    .loader-content { text-align: center; z-index: 1; }
+    .zellige-icon { width: 80px; margin: 0 auto 24px; animation: loaderSpin 4s linear infinite; }
+    .zellige-icon svg { width: 100%; height: 100%; }
+    .loader-text { font-family: 'Tajawal', sans-serif; font-size: 1rem; letter-spacing: 0.2em; color: var(--gold); opacity: 0.8; }
+    @keyframes loaderSpin { to { transform: rotate(360deg); } }
+
+    /* ===========================
+       NAVBAR
+    =========================== */
+    #navbar {
+      position: fixed; top: 0; right: 0; left: 0;
+      z-index: 1000;
+      padding: 20px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.4s, padding 0.4s;
+    }
+    #navbar.scrolled {
+      background: rgba(14,11,7,0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 14px 40px;
+      border-bottom: 1px solid rgba(200,148,42,0.15);
+    }
+    .nav-logo { font-family: 'Tajawal', sans-serif; font-size: 1.6rem; color: var(--gold); font-weight: 700; text-decoration: none; }
+    .nav-links { display: flex; gap: 36px; list-style: none; flex-direction: row-reverse; }
+    .nav-link {
+      font-family: 'Tajawal', sans-serif; font-size: 0.95rem;
+      letter-spacing: 0.05em; color: var(--text);
+      text-decoration: none; position: relative; transition: color 0.3s;
+    }
+    .nav-link::after {
+      content: ''; position: absolute; right: 0; bottom: -4px;
+      width: 0; height: 1px; background: var(--gold); transition: width 0.3s;
+    }
+    .nav-link:hover { color: var(--gold); }
+    .nav-link:hover::after { width: 100%; }
+    .nav-toggle {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px; z-index: 1001;
+    }
+    .nav-toggle span { display: block; width: 26px; height: 1.5px; background: var(--cream); transition: all 0.3s; transform-origin: center; }
+    .nav-toggle.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ===========================
+       HERO
+    =========================== */
+    #hero {
+      min-height: 100svh;
+      position: relative; display: flex; align-items: center;
+      overflow: hidden; padding: 0 40px;
+    }
+    .hero-bg-pattern {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(ellipse at 30% 50%, rgba(200,148,42,0.08) 0%, transparent 60%),
+        repeating-linear-gradient(30deg, transparent, transparent 40px, rgba(200,148,42,0.025) 40px, rgba(200,148,42,0.025) 41px),
+        repeating-linear-gradient(-30deg, transparent, transparent 40px, rgba(200,148,42,0.025) 40px, rgba(200,148,42,0.025) 41px);
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(225deg, rgba(14,11,7,0.95) 0%, rgba(14,11,7,0.7) 60%, rgba(14,11,7,0.4) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      max-width: 720px; padding-top: 100px;
+    }
+    .hero-tagline {
+      font-size: 0.85rem; letter-spacing: 0.3em;
+      color: var(--gold); margin-bottom: 24px;
+      opacity: 0; animation: fadeUp 1s ease 1.5s forwards;
+    }
+    .hero-title {
+      font-family: 'Tajawal', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      line-height: 1.1; font-weight: 700;
+      margin-bottom: 24px; color: var(--cream);
+    }
+    .title-line { display: block; opacity: 0; animation: fadeUp 1s ease forwards; }
+    .title-line:nth-child(1) { animation-delay: 1.7s; }
+    .title-line:nth-child(2) { animation-delay: 1.9s; }
+    .title-line:nth-child(3) { animation-delay: 2.1s; }
+    .title-line.accent { color: var(--gold); font-style: italic; }
+    .hero-sub {
+      font-size: 1.1rem; line-height: 1.8; color: var(--text);
+      margin-bottom: 40px; max-width: 520px;
+      opacity: 0; animation: fadeUp 1s ease 2.3s forwards;
+    }
+    .hero-cta {
+      display: flex; gap: 16px; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 1s ease 2.5s forwards;
+    }
+    .btn-primary {
+      display: inline-block; padding: 14px 36px;
+      background: var(--gold); color: var(--dark);
+      font-family: 'Tajawal', sans-serif; font-size: 0.95rem;
+      letter-spacing: 0.1em; text-decoration: none; font-weight: 600;
+      transition: all 0.3s; position: relative; overflow: hidden;
+    }
+    .btn-primary::after {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(255,255,255,0.15); transform: translateX(100%); transition: transform 0.4s;
+    }
+    .btn-primary:hover::after { transform: translateX(0); }
+    .btn-ghost {
+      display: inline-block; padding: 14px 36px;
+      border: 1px solid rgba(200,148,42,0.4); color: var(--gold);
+      font-family: 'Tajawal', sans-serif; font-size: 0.95rem;
+      letter-spacing: 0.1em; text-decoration: none; transition: all 0.3s;
+    }
+    .btn-ghost:hover { background: rgba(200,148,42,0.1); border-color: var(--gold); }
+    .hero-scroll-hint {
+      position: absolute; bottom: 40px; right: 40px;
+      display: flex; align-items: center; gap: 16px;
+      opacity: 0; animation: fadeUp 1s ease 3s forwards;
+    }
+    .hero-scroll-hint span { font-size: 0.75rem; letter-spacing: 0.25em; color: var(--gold); }
+    .scroll-line { width: 60px; height: 1px; background: var(--gold); animation: scrollPulse 2s ease infinite; }
+    @keyframes scrollPulse { 0%,100%{opacity:0.3;width:30px} 50%{opacity:1;width:60px} }
+
+    .hero-geometric { position: absolute; left: -100px; top: 50%; transform: translateY(-50%); z-index: 1; }
+    .geo-shape {
+      position: absolute; border: 1px solid rgba(200,148,42,0.15);
+      animation: geoRotate 20s linear infinite;
+    }
+    .geo-1 { width: 500px; height: 500px; left: 50px; top: -250px; clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%); }
+    .geo-2 { width: 380px; height: 380px; left: 110px; top: -190px; clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%); animation-direction: reverse; animation-duration: 30s; border-color: rgba(200,148,42,0.1); }
+    .geo-3 { width: 260px; height: 260px; left: 170px; top: -130px; clip-path: polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%); animation-duration: 15s; border-color: rgba(200,148,42,0.2); }
+    @keyframes geoRotate { to { transform: rotate(360deg); } }
+
+    /* ===========================
+       STATS BAND
+    =========================== */
+    .stats-band {
+      display: flex; justify-content: center; align-items: center;
+      padding: 48px 40px;
+      background: var(--dark-2);
+      border-top: 1px solid rgba(200,148,42,0.15);
+      border-bottom: 1px solid rgba(200,148,42,0.15);
+      flex-wrap: wrap; gap: 0;
+    }
+    .stat-item { text-align: center; padding: 16px 48px; }
+    .stat-num {
+      display: block; font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      color: var(--gold); line-height: 1;
+    }
+    .stat-label {
+      display: block; font-size: 0.85rem;
+      letter-spacing: 0.1em; color: var(--text); margin-top: 8px;
+    }
+    .stat-divider { width: 1px; height: 60px; background: rgba(200,148,42,0.2); }
+
+    /* ===========================
+       SECTIONS COMMON
+    =========================== */
+    section { padding: 100px 40px; }
+    .section-header { text-align: center; margin-bottom: 64px; }
+    .section-header.light .section-title { color: var(--cream); }
+    .section-tag {
+      font-size: 0.8rem; letter-spacing: 0.3em;
+      color: var(--gold); display: block; margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Tajawal', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700; line-height: 1.2; color: var(--cream);
+    }
+    .section-title em { color: var(--gold); font-style: normal; }
+    .section-desc { color: var(--text); font-size: 1.05rem; margin-top: 16px; max-width: 500px; margin-inline: auto; line-height: 1.8; }
+
+    /* ===========================
+       SKILLS GRID
+    =========================== */
+    #savoir-faire { max-width: 1400px; margin: 0 auto; }
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1px; background: rgba(200,148,42,0.1);
+      border: 1px solid rgba(200,148,42,0.15);
+    }
+    .skill-card {
+      background: var(--dark-2); padding: 40px 32px;
+      position: relative; overflow: hidden; transition: background 0.4s;
+    }
+    .skill-card::before {
+      content: ''; position: absolute; top: 0; right: 0; left: 0; height: 2px;
+      background: var(--gold); transform: scaleX(0); transform-origin: right;
+      transition: transform 0.5s;
+    }
+    .skill-card:hover::before { transform: scaleX(1); }
+    .skill-card:hover { background: var(--dark-3); }
+    .skill-card.featured {
+      background: linear-gradient(135deg, rgba(200,148,42,0.08) 0%, var(--dark-2) 100%);
+      border-right: 2px solid var(--gold);
+    }
+    .skill-icon { width: 52px; height: 52px; color: var(--gold); margin-bottom: 24px; opacity: 0.8; }
+    .skill-icon svg { width: 100%; height: 100%; }
+    .featured-badge {
+      display: inline-block; font-size: 0.75rem; letter-spacing: 0.15em;
+      background: var(--gold); color: var(--dark);
+      padding: 3px 10px; margin-bottom: 12px; font-weight: 600;
+    }
+    .skill-card h3 {
+      font-family: 'Tajawal', sans-serif; font-size: 1.2rem; font-weight: 700;
+      color: var(--cream); margin-bottom: 12px;
+    }
+    .skill-card p { font-size: 0.95rem; line-height: 1.8; color: var(--text); margin-bottom: 20px; }
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; }
+    .skill-tags li {
+      font-size: 0.75rem; letter-spacing: 0.05em;
+      padding: 4px 12px; border: 1px solid rgba(200,148,42,0.25);
+      color: var(--gold);
+    }
+
+    /* ===========================
+       PROJECTS
+    =========================== */
+    #projets { max-width: 1400px; margin: 0 auto; }
+    .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px; }
+    .filter-btn {
+      font-size: 0.85rem; letter-spacing: 0.1em;
+      padding: 10px 24px;
+      border: 1px solid rgba(200,148,42,0.25);
+      background: transparent; color: var(--text);
+      cursor: pointer; transition: all 0.3s; font-family: 'Tajawal', sans-serif;
+    }
+    .filter-btn:hover, .filter-btn.active { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 380px; gap: 1px;
+      background: rgba(200,148,42,0.1);
+    }
+    .project-card { position: relative; overflow: hidden; cursor: pointer; transition: transform 0.5s; }
+    .project-card.large { grid-column: span 1; grid-row: span 2; }
+    .project-card.complet-card { grid-column: span 2; }
+    .project-card.hidden { display: none; }
+    .project-img {
+      position: absolute; inset: 0;
+      transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .project-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+    .project-card:hover .project-img { transform: scale(1.05); }
+    .project-card:hover .project-img img { transform: scale(1.05); }
+    .project-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(14,11,7,0.95) 0%, rgba(14,11,7,0.4) 50%, transparent 100%);
+      display: flex; align-items: flex-start; justify-content: flex-start; padding: 20px;
+    }
+    .project-cat-tag {
+      font-size: 0.75rem; letter-spacing: 0.1em;
+      background: var(--gold); color: var(--dark);
+      padding: 5px 14px; font-weight: 600; font-family: 'Tajawal', sans-serif;
+    }
+    .project-info {
+      position: absolute; bottom: 0; right: 0; left: 0;
+      padding: 28px 24px; transform: translateY(20px); transition: transform 0.5s;
+    }
+    .project-card:hover .project-info { transform: translateY(0); }
+    .project-info h3 {
+      font-family: 'Tajawal', sans-serif; font-size: 1.05rem; font-weight: 700;
+      color: var(--cream); margin-bottom: 8px;
+    }
+    .project-info p { font-size: 0.88rem; color: var(--text); line-height: 1.6; margin-bottom: 12px; }
+    .project-meta {
+      display: flex; gap: 16px; font-size: 0.78rem;
+      letter-spacing: 0.05em; color: var(--gold);
+    }
+
+    /* Patterns */
+    .project-pattern { position: absolute; inset: 0; opacity: 0.3; }
+    .zellij-pattern-2 {
+      background-image:
+        repeating-linear-gradient(60deg, rgba(100,160,200,0.25) 0, rgba(100,160,200,0.25) 1px, transparent 0, transparent 50%),
+        repeating-linear-gradient(-60deg, rgba(100,160,200,0.25) 0, rgba(100,160,200,0.25) 1px, transparent 0, transparent 50%);
+      background-size: 20px 20px;
+    }
+    .platre-pattern {
+      background-image: radial-gradient(circle at 50% 50%, rgba(200,148,42,0.25) 0%, transparent 60%),
+        repeating-linear-gradient(30deg, rgba(200,148,42,0.1) 0, rgba(200,148,42,0.1) 1px, transparent 0, transparent 50%);
+      background-size: 100%, 25px 25px;
+    }
+    .tadelakt-pattern { background-image: radial-gradient(ellipse at center, rgba(100,180,220,0.3) 0%, transparent 70%); }
+    .complet-pattern {
+      background-image:
+        repeating-linear-gradient(0deg, rgba(200,148,42,0.15) 0, rgba(200,148,42,0.15) 1px, transparent 0, transparent 40px),
+        repeating-linear-gradient(90deg, rgba(200,148,42,0.15) 0, rgba(200,148,42,0.15) 1px, transparent 0, transparent 40px);
+    }
+    .moucharabieh-pattern {
+      background-image:
+        repeating-linear-gradient(0deg, rgba(200,148,42,0.2) 0, rgba(200,148,42,0.2) 1px, transparent 0, transparent 20px),
+        repeating-linear-gradient(90deg, rgba(200,148,42,0.2) 0, rgba(200,148,42,0.2) 1px, transparent 0, transparent 20px),
+        repeating-linear-gradient(45deg, rgba(200,148,42,0.1) 0, rgba(200,148,42,0.1) 1px, transparent 0, transparent 14px);
+    }
+
+    /* ===========================
+       PROCESSUS
+    =========================== */
+    #processus {
+      background: linear-gradient(135deg, var(--dark-2) 0%, var(--dark-3) 100%);
+      position: relative; overflow: hidden;
+    }
+    #processus::before {
+      content: ''; position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(45deg, transparent, transparent 50px, rgba(200,148,42,0.03) 50px, rgba(200,148,42,0.03) 51px),
+        repeating-linear-gradient(-45deg, transparent, transparent 50px, rgba(200,148,42,0.03) 50px, rgba(200,148,42,0.03) 51px);
+    }
+    .processus-inner { max-width: 900px; margin: 0 auto; position: relative; }
+    .steps-container { display: flex; flex-direction: column; }
+    .step {
+      display: grid; grid-template-columns: 80px 1fr;
+      gap: 32px; align-items: start;
+      padding: 32px 0; opacity: 0.4; transition: opacity 0.5s;
+    }
+    .step.visible { opacity: 1; }
+    .step-num {
+      font-family: 'Cinzel', serif; font-size: 2.5rem; font-weight: 600;
+      color: var(--gold); opacity: 0.25; line-height: 1; padding-top: 4px; transition: opacity 0.5s;
+    }
+    .step.visible .step-num { opacity: 0.6; }
+    .step-content h3 { font-family: 'Tajawal', sans-serif; font-size: 1.25rem; font-weight: 700; color: var(--cream); margin-bottom: 10px; }
+    .step-content p { font-size: 1rem; line-height: 1.8; color: var(--text); }
+    .step-connector { width: 1px; height: 40px; background: linear-gradient(to bottom, rgba(200,148,42,0.4), transparent); margin-right: 80px; }
+
+    /* ===========================
+       TESTIMONIALS
+    =========================== */
+    #temoignages { overflow: hidden; }
+    .testimonials-track {
+      display: flex; gap: 24px; padding-bottom: 40px;
+      overflow-x: auto; scroll-snap-type: x mandatory;
+      scrollbar-width: none; -ms-overflow-style: none;
+      max-width: 1200px; margin: 0 auto;
+      direction: ltr; /* pour le scroll naturel */
+    }
+    .testimonials-track::-webkit-scrollbar { display: none; }
+    .testimonial-card {
+      flex: 0 0 340px; background: var(--dark-2);
+      border: 1px solid rgba(200,148,42,0.15);
+      padding: 40px 32px; scroll-snap-align: start;
+      position: relative; direction: rtl;
+    }
+    .quote-icon {
+      font-family: Georgia, serif; font-size: 5rem; line-height: 0.5;
+      color: var(--gold); opacity: 0.25; margin-bottom: 24px; display: block;
+    }
+    .testimonial-card p { font-size: 1rem; line-height: 1.8; color: var(--text-light); font-style: italic; margin-bottom: 28px; }
+    .testimonial-author { display: flex; align-items: center; gap: 14px; }
+    .author-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--dark); font-weight: 700; flex-shrink: 0;
+    }
+    .testimonial-author strong { display: block; font-size: 0.9rem; font-weight: 700; color: var(--cream); }
+    .testimonial-author span { font-size: 0.78rem; color: var(--text); }
+    .testimonial-dots { display: flex; justify-content: center; gap: 8px; margin-top: 32px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(200,148,42,0.3); cursor: pointer; transition: all 0.3s; border: none; }
+    .dot.active { background: var(--gold); width: 20px; border-radius: 3px; }
+
+    /* ===========================
+       CONTACT
+    =========================== */
+    #contact { background: var(--dark-2); padding: 100px 40px; }
+    .contact-wrapper {
+      max-width: 900px; margin: 0 auto;
+    }
+    .contact-title {
+      font-family: 'Tajawal', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700; color: var(--cream);
+      line-height: 1.2; margin: 16px 0 20px;
+    }
+    .contact-title em { color: var(--gold); font-style: normal; }
+    .contact-desc { font-size: 1rem; line-height: 1.8; color: var(--text); margin-bottom: 48px; }
+    .contact-details { display: flex; flex-direction: column; gap: 4px; margin-bottom: 40px; }
+    .contact-item {
+      display: flex; align-items: center; gap: 20px;
+      text-decoration: none; color: inherit;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(200,148,42,0.1);
+      transition: all 0.3s;
+    }
+    .contact-item:hover { color: var(--gold); padding-right: 8px; }
+    .contact-icon {
+      width: 44px; height: 44px; min-width: 44px;
+      border: 1px solid rgba(200,148,42,0.25);
+      display: flex; align-items: center; justify-content: center; color: var(--gold);
+    }
+    .contact-icon svg { width: 20px; height: 20px; }
+    .contact-label { display: block; font-size: 0.75rem; letter-spacing: 0.1em; color: var(--gold); margin-bottom: 4px; }
+    .contact-value { font-size: 1rem; color: var(--text-light); }
+    .social-links { display: flex; gap: 12px; margin-top: 32px; }
+    .social-btn {
+      width: 44px; height: 44px;
+      border: 1px solid rgba(200,148,42,0.25);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text); text-decoration: none; transition: all 0.3s;
+    }
+    .social-btn svg { width: 18px; height: 18px; }
+    .social-btn:hover { border-color: var(--gold); color: var(--gold); background: rgba(200,148,42,0.08); }
+
+    /* ===========================
+       FOOTER
+    =========================== */
+    footer {
+      background: var(--dark); position: relative; overflow: hidden;
+      padding: 64px 40px 40px;
+      border-top: 1px solid rgba(200,148,42,0.12);
+    }
+    .footer-pattern {
+      position: absolute; inset: 0;
+      background-image:
+        repeating-linear-gradient(60deg, transparent, transparent 60px, rgba(200,148,42,0.02) 60px, rgba(200,148,42,0.02) 61px),
+        repeating-linear-gradient(-60deg, transparent, transparent 60px, rgba(200,148,42,0.02) 60px, rgba(200,148,42,0.02) 61px);
+    }
+    .footer-content { position: relative; text-align: center; }
+    .logo-ar-lg { display: block; font-family: 'Tajawal', sans-serif; font-size: 2rem; color: var(--gold); margin-bottom: 12px; font-weight: 700; }
+    .footer-content p { font-size: 0.9rem; color: var(--text); line-height: 1.6; margin-bottom: 32px; }
+    .footer-links { display: flex; justify-content: center; gap: 32px; margin-bottom: 32px; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.85rem; letter-spacing: 0.1em; color: var(--text); text-decoration: none; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-copy { font-size: 0.75rem; color: rgba(200,180,140,0.35); }
+
+    /* ===========================
+       ANIMATIONS
+    =========================== */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ===========================
+       WHATSAPP FLOAT
+    =========================== */
+    .wa-float {
+      position: fixed; bottom: 28px; left: 28px; z-index: 900;
+      background: #25D366; color: #fff;
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 20px; text-decoration: none;
+      font-size: 0.9rem; font-weight: 600;
+      box-shadow: 0 8px 32px rgba(37,211,102,0.35);
+      transition: all 0.3s; max-width: 54px; overflow: hidden;
+    }
+    .wa-float:hover { max-width: 220px; box-shadow: 0 12px 40px rgba(37,211,102,0.5); }
+    .wa-float span { white-space: nowrap; }
+
+    /* ===========================
+       RESPONSIVE TABLET
+    =========================== */
+    @media (max-width: 1100px) {
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+      .project-card.large { grid-column: span 1; grid-row: span 1; }
+      .project-card.complet-card { grid-column: span 2; }
+      .stat-divider { display: none; }
+    }
+
+    /* ===========================
+       RESPONSIVE MOBILE
+    =========================== */
+    @media (max-width: 768px) {
+      section { padding: 72px 20px; }
+      #navbar { padding: 18px 20px; }
+      #navbar.scrolled { padding: 14px 20px; }
+
+      .nav-toggle { display: flex; }
+      .nav-links {
+        position: fixed; inset: 0;
+        background: rgba(14,11,7,0.98);
+        flex-direction: column;
+        align-items: center; justify-content: center;
+        gap: 40px;
+        transform: translateX(-100%);
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        z-index: 1000;
+      }
+      .nav-links.open { transform: translateX(0); }
+      .nav-link { font-size: 1.1rem; }
+
+      #hero { padding: 0 20px; }
+      .hero-scroll-hint { right: 20px; }
+      .hero-geometric { display: none; }
+
+      .stats-band { padding: 40px 20px; }
+      .stat-item { padding: 12px 24px; }
+
+      .skills-grid { grid-template-columns: 1fr; }
+      .skill-card { padding: 32px 24px; }
+
+      .projects-grid { grid-template-columns: 1fr; grid-auto-rows: 300px; }
+      .project-card.complet-card, .project-card.large { grid-column: span 1; grid-row: span 1; }
+
+      .testimonial-card { flex: 0 0 280px; }
+
+      #contact { padding: 72px 20px; }
+
+      footer { padding: 48px 20px 32px; }
+      .footer-links { gap: 20px; }
+
+      .hero-cta { flex-direction: column; }
+      .btn-primary, .btn-ghost { text-align: center; }
+
+      .wa-float { bottom: 20px; left: 16px; }
+
+      .step-connector { margin-right: 60px; }
+    }
+
+    @media (max-width: 480px) {
+      .section-title { font-size: 1.9rem; }
+      .hero-title { font-size: 2.4rem; }
+      .stat-item { padding: 10px 16px; }
+      .testimonial-card { flex: 0 0 calc(100vw - 60px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-pattern"></div>
+    <div class="loader-content">
+      <div class="zellige-icon">
+        <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="40,5 75,20 75,60 40,75 5,60 5,20" fill="none" stroke="#C8942A" stroke-width="1.5"/>
+          <polygon points="40,15 65,27 65,53 40,65 15,53 15,27" fill="none" stroke="#C8942A" stroke-width="1"/>
+          <polygon points="40,25 55,33 55,47 40,55 25,47 25,33" fill="#C8942A" opacity="0.3"/>
+          <circle cx="40" cy="40" r="4" fill="#C8942A"/>
+        </svg>
+      </div>
+      <p class="loader-text">جاري التحميل...</p>
+    </div>
+  </div>
+
+  <!-- CURSOR -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-logo">المـعـلـم محمد المغربي</div>
+    <button class="nav-toggle" id="navToggle" aria-label="القائمة">
+      <span></span><span></span><span></span>
+    </button>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero" class="nav-link">الرئيسية</a></li>
+      <li><a href="#savoir-faire" class="nav-link">خبرتنا</a></li>
+      <li><a href="#projets" class="nav-link">مشاريعنا</a></li>
+      <li><a href="#processus" class="nav-link">طريقة العمل</a></li>
+      <li><a href="#contact" class="nav-link">اتصل بنا</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg-pattern"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-tagline">حِرَفي مغربي — منذ عام ١٩٩٨</p>
+      <h1 class="hero-title">
+        <span class="title-line">فن</span>
+        <span class="title-line accent">الزليج والجبس</span>
+        <span class="title-line">المغربي الأصيل</span>
+      </h1>
+      <p class="hero-sub">
+        كل جدار لوحة فنية. كل بلاطة قصيدة هندسية.<br>
+        نحوّل فضاءاتكم إلى تحف فنية خالدة، بأيدٍ مغربية ماهرة.
+      </p>
+      <div class="hero-cta">
+        <a href="#projets" class="btn-primary">شاهد أعمالنا</a>
+        <a href="#contact" class="btn-ghost">اطلب عرض سعر</a>
+      </div>
+      
+    </div>
+    <div class="hero-geometric">
+      <div class="geo-shape geo-1"></div>
+      <div class="geo-shape geo-2"></div>
+      <div class="geo-shape geo-3"></div>
+    </div>
+  </section>
+
+  <!-- STATS BAND -->
+  <div class="stats-band">
+    <div class="stat-item">
+      <span class="stat-num" data-target="250">0</span>
+      <span class="stat-label">مشروع منجز</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="26">0</span>
+      <span class="stat-label">سنة خبرة</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="18">0</span>
+      <span class="stat-label">مدينة مغربية</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-num" data-target="100">0</span>
+      <span class="stat-label">٪ صناعة يدوية</span>
+    </div>
+  </div>
+
+  <!-- SAVOIR-FAIRE -->
+  <section id="savoir-faire">
+    <div class="section-header">
+      <span class="section-tag">خبرتنا الحرفية</span>
+      <h2 class="section-title">مهارات <em>متوارثة</em></h2>
+      <p class="section-desc">تقنيات تتناقلها الأجيال، نتقنها بشغف وتفانٍ منذ عقود.</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal" data-delay="0">
+        <div class="skill-icon">
+          <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 5 L55 20 L55 40 L30 55 L5 40 L5 20 Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M30 15 L45 23 L45 37 L30 45 L15 37 L15 23 Z" fill="none" stroke="currentColor" stroke-width="1"/>
+            <circle cx="30" cy="30" r="5" fill="currentColor" opacity="0.4"/>
+          </svg>
+        </div>
+        <h3>الجبس المنحوت</h3>
+        <p>مشربيات وأرابيسك ونقوش بارزة تُنحت يدوياً بأشكال إسلامية أصيلة تزين الأسقف والجدران.</p>
+        <ul class="skill-tags">
+          <li>مشربية</li>
+          <li>أرابيسك</li>
+          <li>نقوش بارزة</li>
+        </ul>
+      </div>
+      <div class="skill-card featured reveal" data-delay="100">
+        <div class="skill-icon">
+          <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="10" width="17" height="17" transform="rotate(45 18.5 18.5)" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="33" y="10" width="17" height="17" transform="rotate(45 41.5 18.5)" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="10" y="33" width="17" height="17" transform="rotate(45 18.5 41.5)" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="33" y="33" width="17" height="17" transform="rotate(45 41.5 41.5)" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="30" cy="30" r="3" fill="currentColor"/>
+          </svg>
+        </div>
+        <span class="featured-badge">تخصصنا الأول</span>
+        <h3>الزليج المغربي</h3>
+        <p>فسيفساء من الفخار المقطوع يدوياً، مرتبة في تكوينات هندسية بديعة — فن فاسي عريق.</p>
+        <ul class="skill-tags">
+          <li>زليج فاسي</li>
+          <li>نافورات</li>
+          <li>أفنية</li>
+          <li>أحواض</li>
+        </ul>
+      </div>
+      <div class="skill-card reveal" data-delay="200">
+        <div class="skill-icon">
+          <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 8 Q50 20 50 40 Q50 55 30 55 Q10 55 10 40 Q10 20 30 8Z" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M30 18 Q42 26 42 38 Q42 48 30 48 Q18 48 18 38 Q18 26 30 18Z" fill="none" stroke="currentColor" stroke-width="1" opacity="0.5"/>
+          </svg>
+        </div>
+        <h3>التادلاكت</h3>
+        <p>طلاء مغربي تقليدي مقاوم للماء، يُصقل يدوياً لإنشاء أسطح حريرية لامعة تبهر الأبصار.</p>
+        <ul class="skill-tags">
+          <li>حمام مغربي</li>
+          <li>حمام أوروبي</li>
+          <li>مسبح</li>
+        </ul>
+      </div>
+      <div class="skill-card reveal" data-delay="300">
+        <div class="skill-icon">
+          <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="8" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="32" y="8" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="8" y="32" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="32" y="32" width="20" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <h3>البلاط البلدي</h3>
+        <p>بلاط أسمنتي حرفي بنقوش هندسية وزهرية، مصنوع يدوياً وفق الطرق العتيقة المتوارثة.</p>
+        <ul class="skill-tags">
+          <li>نقوش هندسية</li>
+          <li>حسب الطلب</li>
+          <li>خارجي</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJETS -->
+  <section id="projets">
+    <div class="section-header">
+      <span class="section-tag">معرض الأعمال</span>
+      <h2 class="section-title">إنجازاتنا <em>المتميزة</em></h2>
+    </div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">الكل</button>
+      <button class="filter-btn" data-filter="platre">جبس</button>
+      <button class="filter-btn" data-filter="zellij">زليج</button>
+      <button class="filter-btn" data-filter="tadelakt">تادلاكت</button>
+      <button class="filter-btn" data-filter="complet">مشروع كامل</button>
+    </div>
+
+    <div class="projects-grid" id="projectsGrid">
+
+    <div class="project-card reveal" data-category="zellij">
+        <div class="project-img">
+          <img src="images/1.jpg" alt="نافورة رياض البركة" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="project-card large reveal" data-category="platre">
+        <div class="project-img">
+          <img src="images/2.jpg" alt="نافورة رياض البركة" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="project-card reveal" data-category="tadelakt">
+        <div class="project-img">
+          <img src="images/3.jpg" alt="نافورة رياض البركة" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="project-card reveal" data-category="zellij">
+        <div class="project-img">
+          <img src="images/4.jpg" alt="نافورة رياض البركة" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="project-card complet-card reveal" data-category="complet">
+        <div class="project-img">
+          <img src="images/5.jpg" alt="نافورة رياض البركة" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="project-card reveal" data-category="platre">
+        <div class="project-img">
+          <img src="images/6.jpg" alt="نافورة رياض البركة" loading="lazy" />
+        </div>
+      </div>
+      <div class="project-card reveal" data-category="tadelakt">
+        <div class="project-img">
+          <img src="images/7.jpg" alt="نافورة رياض البركة" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="project-card reveal" data-category="zellij">
+        <div class="project-img">
+          <img src="images/8.jpeg" alt="نافورة رياض البركة" loading="lazy" />
+        </div>
+      </div>
+
+
+      <div class="project-card reveal" data-category="platre">
+        <div class="project-img">
+          <img src="images/10.jpeg" alt="نافورة رياض البركة" loading="lazy" />
+        </div>
+      </div>
+      <div class="project-card reveal" data-category="tadelakt">
+        <div class="project-img">
+          <img src="images/11.jpeg" alt="نافورة رياض البركة" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="project-card reveal" data-category="zellij">
+        <div class="project-img">
+          <img src="images/12.jpeg" alt="نافورة رياض البركة" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="project-card complet-card reveal" data-category="complet">
+        <div class="project-img">
+          <img src="images/15.jpeg" alt="نافورة رياض البركة" loading="lazy" />
+        </div>
+      </div>
+
+      <div class="project-card reveal" data-category="platre">
+        <div class="project-img">
+          <img src="images/16.jpeg" alt="نافورة رياض البركة" loading="lazy" />
+        </div>
+      </div>
+      <div class="project-card complet-card reveal" data-category="complet">
+        <div class="project-img">
+          <img src="images/17.jpeg" alt="نافورة رياض البركة" loading="lazy" />
+      </div>
+
+      <div class="project-card reveal" data-category="platre">
+        <div class="project-img">
+          <img src="images/20.jpeg" alt="نافورة رياض البركة" loading="lazy" />
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROCESSUS -->
+  <section id="processus">
+    <div class="processus-inner">
+      <div class="section-header light">
+        <span class="section-tag">منهجية العمل</span>
+        <h2 class="section-title">من الفكرة <em>إلى التحفة</em></h2>
+      </div>
+      <div class="steps-container">
+        <div class="step" data-step="01">
+          <div class="step-num">٠١</div>
+          <div class="step-content">
+            <h3>الاستشارة والرؤية</h3>
+            <p>زيارة الموقع، الإصغاء لتطلعاتكم، دراسة الفضاء والإضاءة لفهم روح المكان وشخصيته.</p>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step" data-step="02">
+          <div class="step-num">٠٢</div>
+          <div class="step-content">
+            <h3>التصميم والرسم</h3>
+            <p>ابتكار النقوش يدوياً، اختيار الألوان والمواد، تقديم النماذج والعينات لاعتمادكم.</p>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step" data-step="03">
+          <div class="step-num">٠٣</div>
+          <div class="step-content">
+            <h3>الصنع الحرفي</h3>
+            <p>كل قطعة تُقطع وتُنحت أو تُصب يدوياً في ورشتنا على يد معلمينا المهرة.</p>
+          </div>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step" data-step="04">
+          <div class="step-num">٠٤</div>
+          <div class="step-content">
+            <h3>التركيب والتشطيب</h3>
+            <p>تركيب دقيق، صقل وتشطيب مثالي. لا نغادر إلا حين تكونوا راضين تمام الرضا.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+ 
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact-wrapper">
+      <span class="section-tag">لنعمل معاً</span>
+      <h2 class="contact-title">حوّل <em>رؤيتك</em> إلى واقع</h2>
+      <p class="contact-desc">سواء كان الأمر ترميماً أو مشروعاً جديداً أو مجرد استفسار، نحن هنا لمرافقتكم في كل خطوة.</p>
+      <div class="contact-details">
+        <a href="tel:+966536282807" class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.86 12 19.79 19.79 0 01.77 3.37 2 2 0 012.75 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.92a16 16 0 006.06 6.06l1.09-1.09a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div>
+            <span class="contact-label">هاتف وواتساب</span>
+            <span class="contact-value">00966536282807</span>
+          </div>
+          <div>
+            <span class="contact-label">هاتف وواتساب</span>
+            <span class="contact-value">00966508854849</span>
+          </div>
+        </a>
+        <a href="mailto:yahyabackupup@gmail.com" class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <span class="contact-label">البريد الإلكتروني</span>
+            <span class="contact-value">yahyabackupup@gmail.com</span>
+          </div>
+        </a>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div>
+            <span class="contact-label">المنطقة</span>
+            <span class="contact-value">مكة المكرمة وجميع أنحاء المملكة</span>
+          </div>
+        </div>
+      </div>
+      <div class="social-links">
+        <a href="https://wa.me/966508854849" class="social-btn" aria-label="واتساب">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/decoration_marrakech_morocco?igsh=M3d4dDlzMWZpOHds" class="social-btn" aria-label="إنستغرام">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="https://www.instagram.com/decoration_marrakech_morocco?igsh=M3d4dDlzMWZpOHds" class="social-btn" aria-label="فيسبوك">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-pattern"></div>
+    <div class="footer-content">
+      <span class="logo-ar-lg">مـعـلـم محمد</span>
+      <p>حِرَفي وزخرفي — جبس وزليج مغربي أصيل</p>
+      <div class="footer-links">
+        <a href="#hero">الرئيسية</a>
+        <a href="#savoir-faire">خبرتنا</a>
+        <a href="#projets">مشاريعنا</a>
+        <a href="#contact">اتصل بنا</a>
+      </div>
+      <p class="footer-copy">© معلم محمد · جميع الحقوق محفوظة · حرف مغربية أصيلة</p>
+    </div>
+  </footer>
+
+  <!-- WHATSAPP FLOAT -->
+  <a href="https://wa.me/966508854849?text=السلام عليكم، أود الاستفسار عن خدماتكم." target="_blank" rel="noopener" class="wa-float" aria-label="واتساب">
+    <svg viewBox="0 0 24 24" fill="currentColor" style="width:26px;height:26px;flex-shrink:0;">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+    <span>واتساب</span>
+  </a>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+
+    // LOADER
+    const loader = document.getElementById('loader');
+    const minLoadTime = 1800;
+    const startTime = Date.now();
+    document.body.style.overflow = 'hidden';
+
+    window.addEventListener('load', () => {
+      const remaining = Math.max(0, minLoadTime - (Date.now() - startTime));
+      setTimeout(() => {
+        loader.classList.add('hidden');
+        document.body.style.overflow = '';
+      }, remaining);
+    });
+
+    // CURSOR — desktop only
+    const dot = document.querySelector('.cursor-dot');
+    const ring = document.querySelector('.cursor-ring');
+    if (dot && ring && window.matchMedia('(pointer: fine)').matches) {
+      let mx = 0, my = 0, rx = 0, ry = 0;
+      document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        dot.style.cssText = `left:${mx}px;top:${my}px`;
+      });
+      const animRing = () => {
+        rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+        ring.style.cssText = `left:${rx}px;top:${ry}px`;
+        requestAnimationFrame(animRing);
+      };
+      animRing();
+      document.querySelectorAll('a, button, .filter-btn, .project-card').forEach(el => {
+        el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+        el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+      });
+    }
+
+    // NAVBAR
+    const navbar = document.getElementById('navbar');
+    const navToggle = document.getElementById('navToggle');
+    const navLinksEl = document.getElementById('navLinks');
+
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      navbar.classList.toggle('scrolled', y > 60);
+      lastScroll = y;
+    }, { passive: true });
+
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinksEl.classList.toggle('open');
+    });
+    navLinksEl.querySelectorAll('a').forEach(l => {
+      l.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navLinksEl.classList.remove('open');
+      });
+    });
+
+    // ACTIVE NAV
+    const sections = document.querySelectorAll('section[id]');
+    const allNavLinks = document.querySelectorAll('.nav-link');
+    new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          allNavLinks.forEach(l => l.classList.remove('active'));
+          const a = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+          if (a) a.classList.add('active');
+        }
+      });
+    }, { threshold: 0.4 }).observe(...sections) || sections.forEach(s => {
+      // fallback if only one section
+    });
+    // proper version:
+    const navObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          allNavLinks.forEach(l => l.classList.remove('active'));
+          const a = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+          if (a) a.classList.add('active');
+        }
+      });
+    }, { threshold: 0.4 });
+    sections.forEach(s => navObs.observe(s));
+
+    // COUNTERS
+    let counted = false;
+    const countObs = new IntersectionObserver(entries => {
+      if (!entries[0].isIntersecting || counted) return;
+      counted = true;
+      document.querySelectorAll('.stat-num').forEach(el => {
+        const target = +el.dataset.target;
+        const step = target / (2000 / 16);
+        let cur = 0;
+        const t = setInterval(() => {
+          cur = Math.min(cur + step, target);
+          el.textContent = Math.floor(cur);
+          if (cur >= target) clearInterval(t);
+        }, 16);
+      });
+    }, { threshold: 0.5 });
+    const band = document.querySelector('.stats-band');
+    if (band) countObs.observe(band);
+
+    // SCROLL REVEAL
+    const revealEls = document.querySelectorAll('.reveal, .skill-card, .project-card, .step, .testimonial-card, .section-header');
+    const revealObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const delay = e.target.dataset.delay || 0;
+        setTimeout(() => e.target.classList.add('visible'), +delay);
+        revealObs.unobserve(e.target);
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+    revealEls.forEach(el => { el.classList.add('reveal'); revealObs.observe(el); });
+
+    // STEPS VISIBILITY
+    const stepObs = new IntersectionObserver(entries => {
+      entries.forEach(e => e.target.classList.toggle('visible', e.isIntersecting));
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.step').forEach(s => stepObs.observe(s));
+
+    // PROJECT FILTER
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        projectCards.forEach((card, i) => {
+          const match = filter === 'all' || card.dataset.category === filter;
+          if (match) {
+            card.style.display = '';
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+              card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }, i * 60);
+          } else {
+            card.style.transition = 'opacity 0.3s ease';
+            card.style.opacity = '0';
+            setTimeout(() => { card.style.display = 'none'; }, 300);
+          }
+        });
+      });
+    });
+
+    // TESTIMONIALS
+    const track = document.getElementById('testimonialsTrack');
+    const dotsContainer = document.getElementById('testimonialDots');
+    const cards = track ? [...track.querySelectorAll('.testimonial-card')] : [];
+    if (cards.length && dotsContainer) {
+      cards.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'dot' + (i === 0 ? ' active' : '');
+        d.setAttribute('aria-label', `شهادة ${i + 1}`);
+        d.addEventListener('click', () => cards[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' }));
+        dotsContainer.appendChild(d);
+      });
+
+      const dots = [...dotsContainer.querySelectorAll('.dot')];
+      track.addEventListener('scroll', () => {
+        const active = Math.round(track.scrollLeft / (cards[0].offsetWidth + 24));
+        dots.forEach((d, i) => d.classList.toggle('active', i === active));
+      }, { passive: true });
+
+      let autoScroll = setInterval(() => {
+        const max = track.scrollWidth - track.clientWidth;
+        if (track.scrollLeft >= max - 10) track.scrollTo({ left: 0, behavior: 'smooth' });
+        else track.scrollBy({ left: cards[0].offsetWidth + 24, behavior: 'smooth' });
+      }, 4500);
+
+      track.addEventListener('mouseenter', () => clearInterval(autoScroll));
+      track.addEventListener('touchstart', () => clearInterval(autoScroll), { passive: true });
+    }
+
+    // HERO PARALLAX (passive)
+    const heroBg = document.querySelector('.hero-bg-pattern');
+    const heroGeo = document.querySelector('.hero-geometric');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (heroBg) heroBg.style.transform = `translateY(${y * 0.3}px)`;
+      if (heroGeo) heroGeo.style.transform = `translateY(calc(-50% + ${y * 0.15}px))`;
+    }, { passive: true });
+
+    // SKILL CARDS 3D TILT
+    document.querySelectorAll('.skill-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width - 0.5) * 12;
+        const y = ((e.clientY - r.top) / r.height - 0.5) * 12;
+        card.style.transform = `perspective(600px) rotateX(${-y}deg) rotateY(${x}deg) translateZ(4px)`;
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+
+  });
+  </script>
+</body>
+</html>
